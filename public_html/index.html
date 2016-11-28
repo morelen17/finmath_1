@@ -26,30 +26,30 @@ and open the template in the editor.
         </nav>
         <div class="container">
             <div class="starter-template">
-                <h1>FinMath_1</h1>
-                <!--<p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>-->
+                <!--<h1>FinMath_1</h1>
+                <br/>-->                
                 <div class="row">
                     <div class="col-sm-12">
-                        <form class="form-horizontal">
+                        <form id="form" class="form-horizontal">
                             
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <label for="val-N" class="col-sm-2 control-label">N</label>
                                         <div class="col-sm-10">
-                                            <input type="number" class="form-control" id="val-N" placeholder="N" required>
+                                            <input type="text" class="form-control" id="val-N" placeholder="N" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <label for="val-S0" class="col-sm-2 control-label">S<sub>0</sub></label>
                                         <div class="col-sm-10">
-                                            <input type="number" class="form-control" id="val-S0" placeholder="S" required>
+                                            <input type="text" class="form-control" id="val-S0" placeholder="S" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <label for="val-B0" class="col-sm-2 control-label">B<sub>0</sub></label>
                                         <div class="col-sm-10">
-                                            <input type="number" class="form-control" id="val-B0" placeholder="B" required>
+                                            <input type="text" class="form-control" id="val-B0" placeholder="B" required>
                                         </div>
                                     </div>
                                 </div>
@@ -78,7 +78,7 @@ and open the template in the editor.
                                 </div>
                             </div>
                             
-                            <div class="form-group">
+                            <!--<div class="form-group">
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <label for="val-states" class="col-sm-2 control-label">States</label>
@@ -87,17 +87,29 @@ and open the template in the editor.
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                             
-                            <div class="form-group">
+                            <!--<div class="form-group">
                                 <div class="row">
                                     <div class="col-lg-offset-4 col-lg-4">
-                                        <button type="submit" class="btn btn-default">Submit</button>
+                                        <button id="submit" type="submit" class="btn btn-primary">Submit</button>
                                     </div>
+                                </div>
+                            </div>-->
+                            <div class="form-group">
+                                <div class="btn-group" role="group">
+                                    <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+                                    <button id="reset" type="button" class="btn btn-primary">Reset</button>
                                 </div>
                             </div>
                             
                         </form>
+                        
+                        <div class="btn-group" role="group">
+                            <button id="increase" type="button" class="btn btn-default">+</button>
+                            <button id="decrease" type="button" class="btn btn-default">-</button>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
