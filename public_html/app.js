@@ -128,7 +128,7 @@ function calculation() {
 
 $(function() {
     
-    $('#form').submit(function() {
+    $('#form').submit(function(e) {
         reset();
         submited = true;
         $('#submit').attr('disabled', true);
@@ -142,6 +142,15 @@ $(function() {
         b = +$('#val-b').val();
         r = +$('#val-r').val();
         K = +$('#val-K').val();
+        if (!(-1 < a && a < r && r < b)) {
+            e.preventDefault();
+            reset();
+            submited = false;
+            $('#submit').attr('disabled', false);
+            $('#increase').attr('disabled', true);
+            $('#decrease').attr('disabled', true);
+            return false;
+        }
         init();
         var text = '<p>Рациональная стоимость опциона: '+Cn+'<br/>'
             +'p*: '+p_star+'<br/>'
