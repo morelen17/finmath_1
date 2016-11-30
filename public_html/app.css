@@ -11,7 +11,8 @@ and open the template in the editor.
 body {
   padding-top: 50px;
 }
-.starter-template {
+
+.inner-container {
   padding: 40px 15px;
   text-align: center;
 }

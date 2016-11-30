@@ -10,36 +10,35 @@ var B_array = {}, S_array = {}, Gamma_array = {}, Beta_array = {};
 var submited = false;
 
 function init() {
-    K = S0 + B0; // ???
+    //K = S0 + B0;
     p_star = (r-a)/(b-a);
-    
     B_array[0] = B0;
     for (var i = 1; i <= N; i++) {
         B_array[i] = calcB(i);
     }
-    console.log(B_array);
-    
     S_array[0] = S0;
-    console.log(S_array);
-    
     Cn = calcC(S0, N);
-    console.log(Cn);
-    
     step = 1;
-    
     Gamma_array[step] = calcGamma(S_array[step-1], step);
     Beta_array[step] = calcBeta(S_array[step-1], step);
-    console.log(Gamma_array);
-    console.log(Beta_array);
     
     if (Gamma_array[step] === 0.0 && Beta_array[step] === 0.0) {
-        console.log('Цена акции: '+S_array[step-1]);
+        var text = '<p>Цена акции: ' + S_array[step-1] + '<br/>';
+        console.log('Цена акции: ' + S_array[step-1]);
         var temp = Gamma_array[step]*S_array[step-1];
-        console.log('Итоговый капитал: '+ temp);
-        temp = calcS(S_array[step-1], true) - K;
+        text += 'Итоговый капитал: '+ temp + '<br/>';
+        console.log('Итоговый капитал: ' + temp);
+        S_array[step] = calcS(S_array[step-1], true);
+        temp = S_array[step] - K;
+        text += 'Должен выплатить покупателю опциона: ' + (temp > 0 ? temp : 0) + '<br/>';
         console.log('Должен выплатить покупателю опциона: ' + (temp > 0 ? temp : 0));
-        temp = -Beta_array[step-1]*B_array[step-1];
+        temp = Math.abs(Beta_array[step-1]*B_array[step-1]);
+        text += 'Должен вернуть в банк: ' + temp + '</p>';
         console.log('Должен вернуть в банк: ' + temp);
+        $('#text').append(text);
+        
+        $('#increase').attr('disabled', true);
+        $('#decrease').attr('disabled', true);
     }
 }
 
@@ -128,63 +127,41 @@ function calculation() {
 }
 
 $(function() {
-    /*init();
-    var n = 1;
-    var C = calcC(S0, N);
-    console.log(C);
-    var gamma1 = calcGamma(S0, n);
-    console.log(gamma1);
-    var beta1 = calcBeta(S0, n);
-    console.log(beta1);
     
-    n = 2;
-    var B1 = calcB(n-1);
-    console.log(B1);
-    var S1 = calcNextS(S0, true);
-    console.log(S1);
-    var gamma2 = calcGamma(S1, n);
-    console.log(gamma2);
-    var beta2 = calcBeta(S1, n);
-    console.log(beta2);
-    
-    n = 3;
-    var B2 = calcB(n-1);
-    console.log(B2);
-    var S2 = calcNextS(S1, true);
-    console.log(S2);
-    
-    var profit = calcProfit(gamma2, beta2, S2, B2);
-    console.log(profit);*/
-
     $('#form').submit(function() {
         reset();
         submited = true;
+        $('#submit').attr('disabled', true);
+        $('#increase').attr('disabled', false);
+        $('#decrease').attr('disabled', false);
+        
         N = +$('#val-N').val();
         S0 = +$('#val-S0').val();
         B0 = +$('#val-B0').val();
         a = +$('#val-a').val();
         b = +$('#val-b').val();
         r = +$('#val-r').val();
+        K = +$('#val-K').val();
         init();
-        /*if ($(this).validate()) {
-            N = +$('#val-N').val();
-            S0 = +$('#val-S0').val();
-            B0 = +$('#val-B0').val();
-            a = +$('#val-a').val();
-            b = +$('#val-b').val();
-            r = +$('#val-r').val();
-            states = $('#val-states').val();
-            calculation();
-        }
-        else {
-            console.log('zxc');
-        }*/
+        var text = '<p>Рациональная стоимость опциона: '+Cn+'<br/>'
+            +'p*: '+p_star+'<br/>'
+            +'Gamma('+step+'): '+Gamma_array[step]+'<br/>'
+            +'Beta('+step+'): '+Beta_array[step]+'</p>';
+        $('#text').append(text);
+        console.log('Рациональная стоимость опциона: '+Cn);
+        console.log('p*: '+p_star);
+        console.log('Gamma('+step+'): '+Gamma_array[step]);
+        console.log('Beta('+step+'): '+Beta_array[step]);
+
         return false;
     });
     
     $('#reset').click(function () {
         reset();
-        console.log('reset');
+        $('#submit').attr('disabled', false);
+        $('#increase').attr('disabled', true);
+        $('#decrease').attr('disabled', true);
+        $('#text').html('');
     });
     
     $('#increase').click(function() {
@@ -192,34 +169,54 @@ $(function() {
             console.log('increase');
             if (N === 1 || step === N) {
                 if (Gamma_array[step] !== 0.0 && Beta_array[step] !== 0.0) {
-                    S_array[step] = calcS(S_array[step-1], true)
+                    S_array[step] = calcS(S_array[step-1], true);
+                    var text = '<p>Цена акции: ' + S_array[step] + '</br>';
                     console.log('Цена акции: ' + S_array[step]);
                     var temp = Gamma_array[step]*S_array[step];
+                    text += 'Итоговый капитал: '+ temp + '</br>';
                     console.log('Итоговый капитал: '+ temp);
                     temp = S_array[step] - K;
+                    text += 'Должен выплатить покупателю опциона: ' + (temp > 0 ? temp : 0) + '</br>';
                     console.log('Должен выплатить покупателю опциона: ' + (temp > 0 ? temp : 0));
-                    temp = -Beta_array[step]*B_array[step];
+                    temp = Math.abs(Beta_array[step]*B_array[step]);
+                    text += 'Должен вернуть в банк: ' + temp + '</p>';
                     console.log('Должен вернуть в банк: ' + temp);
+                    $('#text').append(text);
+                    
+                    $('#increase').attr('disabled', true);
+                    $('#decrease').attr('disabled', true);
                 }
             }
             else if (step < N) {
                 S_array[step] = calcS(S_array[step-1], true);
-                console.log(S_array);
+                var text = '<p>Цена акции повысилась: ' + S_array[step] + '<br/>';
+                console.log('Цена акции повысилась: ' + S_array[step]);
                 step++;
-                console.log(step);
+                //console.log(step);
                 Gamma_array[step] = calcGamma(S_array[step-1], step);
                 Beta_array[step] = calcBeta(S_array[step-1], step);
-                console.log(Gamma_array);
-                console.log(Beta_array);
+                text += 'Gamma('+step+'): '+Gamma_array[step] + '<br/>'
+                        + 'Beta('+step+'): '+Beta_array[step] + '</p>';
+                console.log('Gamma('+step+'): '+Gamma_array[step]);
+                console.log('Beta('+step+'): '+Beta_array[step]);
+                $('#text').append(text);
                 
                 if (Gamma_array[step] === 0.0 && Beta_array[step] === 0.0) {
+                    var text = '<p>Цена акции: '+S_array[step-1] + '<br/>';
                     console.log('Цена акции: '+S_array[step-1]);
                     var temp = Gamma_array[step]*S_array[step-1];
+                    text += 'Итоговый капитал: '+ temp + '<br/>';
                     console.log('Итоговый капитал: '+ temp);
-                    temp = calcS(S_array[step-1], true) - K;
+                    temp = S_array[step] - K;
+                    text += 'Должен выплатить покупателю опциона: ' + (temp > 0 ? temp : 0) + '<br/>';
                     console.log('Должен выплатить покупателю опциона: ' + (temp > 0 ? temp : 0));
-                    temp = -Beta_array[step-1]*B_array[step-1];
+                    temp = Math.abs(Beta_array[step-1]*B_array[step-1]);
+                    text += 'Должен вернуть в банк: ' + temp + '</p>';
                     console.log('Должен вернуть в банк: ' + temp);
+                    $('#text').append(text);
+                    
+                    $('#increase').attr('disabled', true);
+                    $('#decrease').attr('disabled', true);
                 }
             }
         }
@@ -230,34 +227,54 @@ $(function() {
             console.log('decrease');
             if (N === 1 || step === N) {
                 if (Gamma_array[step] !== 0.0 && Beta_array[step] !== 0.0) {
-                    S_array[step] = calcS(S_array[step-1], false)
+                    S_array[step] = calcS(S_array[step-1], false);
+                    var text = '<p>Цена акции: ' + S_array[step] + '</br>';
                     console.log('Цена акции: ' + S_array[step]);
                     var temp = Gamma_array[step]*S_array[step];
+                    text += 'Итоговый капитал: '+ temp + '</br>';
                     console.log('Итоговый капитал: '+ temp);
                     temp = S_array[step] - K;
+                    text += 'Должен выплатить покупателю опциона: ' + (temp > 0 ? temp : 0) + '</br>';
                     console.log('Должен выплатить покупателю опциона: ' + (temp > 0 ? temp : 0));
-                    temp = -Beta_array[step]*B_array[step];
+                    temp = Math.abs(Beta_array[step]*B_array[step]);
+                    text += 'Должен вернуть в банк: ' + temp + '</p>';
                     console.log('Должен вернуть в банк: ' + temp);
+                    $('#text').append(text);
+                    
+                    $('#increase').attr('disabled', true);
+                    $('#decrease').attr('disabled', true);
                 }
             }
             else if (step < N) {
                 S_array[step] = calcS(S_array[step-1], false);
-                console.log(S_array);
+                var text = '<p>Цена акции понизилась: ' + S_array[step] + '<br/>';
+                console.log('Цена акции понизилась: ' + S_array[step]);
                 step++;
-                console.log(step);
+                //console.log(step);
                 Gamma_array[step] = calcGamma(S_array[step-1], step);
                 Beta_array[step] = calcBeta(S_array[step-1], step);
-                console.log(Gamma_array);
-                console.log(Beta_array);
+                text += 'Gamma('+step+'): '+Gamma_array[step] + '<br/>'
+                        + 'Beta('+step+'): '+Beta_array[step] + '</p>';
+                console.log('Gamma('+step+'): '+Gamma_array[step]);
+                console.log('Beta('+step+'): '+Beta_array[step]);
+                $('#text').append(text);
                 
                 if (Gamma_array[step] === 0.0 && Beta_array[step] === 0.0) {
+                    var text = '<p>Цена акции: '+S_array[step-1] + '<br/>';
                     console.log('Цена акции: '+S_array[step-1]);
                     var temp = Gamma_array[step-1]*S_array[step-1];
+                    text += 'Итоговый капитал: '+ temp + '<br/>';
                     console.log('Итоговый капитал: '+ temp);
-                    temp = calcS(S_array[step-1], false) - K;
+                    temp = S_array[step] - K;
+                    text += 'Должен выплатить покупателю опциона: ' + (temp > 0 ? temp : 0) + '<br/>';
                     console.log('Должен выплатить покупателю опциона: ' + (temp > 0 ? temp : 0));
-                    temp = -Beta_array[step-1]*B_array[step-1];
+                    temp = Math.abs(Beta_array[step-1]*B_array[step-1]);
+                    text += 'Должен вернуть в банк: ' + temp + '</p>';
                     console.log('Должен вернуть в банк: ' + temp);
+                    $('#text').append(text);
+                    
+                    $('#increase').attr('disabled', true);
+                    $('#decrease').attr('disabled', true);
                 }
             }
         }

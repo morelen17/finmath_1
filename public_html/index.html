@@ -9,6 +9,7 @@ and open the template in the editor.
         <title>FinMath_1</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="icon-2.ico" type="image/x-icon">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -25,31 +26,36 @@ and open the template in the editor.
             </div>
         </nav>
         <div class="container">
-            <div class="starter-template">
-                <!--<h1>FinMath_1</h1>
-                <br/>-->                
+            <div class="inner-container">
+                
                 <div class="row">
                     <div class="col-sm-12">
                         <form id="form" class="form-horizontal">
                             
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-3">
                                         <label for="val-N" class="col-sm-2 control-label">N</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="val-N" placeholder="N" required>
+                                            <input type="text" class="form-control" id="val-N" placeholder="Количество шагов" required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-3">
                                         <label for="val-S0" class="col-sm-2 control-label">S<sub>0</sub></label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="val-S0" placeholder="S" required>
+                                            <input type="text" class="form-control" id="val-S0" placeholder="Цена акции" required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-3">
                                         <label for="val-B0" class="col-sm-2 control-label">B<sub>0</sub></label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="val-B0" placeholder="B" required>
+                                            <input type="text" class="form-control" id="val-B0" placeholder="Цена облигации" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="val-K" class="col-sm-2 control-label">K</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="val-K" placeholder="Оговоренная цена акции" required>
                                         </div>
                                     </div>
                                 </div>
@@ -57,61 +63,53 @@ and open the template in the editor.
                             
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-lg-4">
-                                        <label for="val-a" class="col-sm-2 control-label">a</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="val-a" placeholder="a" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <label for="val-b" class="col-sm-2 control-label">b</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="val-b" placeholder="b" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-3">
                                         <label for="val-r" class="col-sm-2 control-label">r</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="val-r" placeholder="r" required>
+                                            <input type="text" class="form-control" id="val-r" placeholder="Процентная ставка" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="val-a" class="col-sm-2 control-label">a</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="val-a" placeholder="Понижение" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="val-b" class="col-sm-2 control-label">b</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="val-b" placeholder="Повышение" required>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
-                            <!--<div class="form-group">
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <label for="val-states" class="col-sm-2 control-label">States</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="val-states" placeholder="states" required>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>-->
-                            
-                            <!--<div class="form-group">
-                                <div class="row">
-                                    <div class="col-lg-offset-4 col-lg-4">
-                                        <button id="submit" type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
-                                </div>
-                            </div>-->
                             <div class="form-group">
                                 <div class="btn-group" role="group">
                                     <button id="submit" type="submit" class="btn btn-primary">Submit</button>
-                                    <button id="reset" type="button" class="btn btn-primary">Reset</button>
+                                    <button id="reset" type="reset" class="btn btn-primary">Reset</button>
                                 </div>
                             </div>
                             
                         </form>
                         
                         <div class="btn-group" role="group">
-                            <button id="increase" type="button" class="btn btn-default">+</button>
-                            <button id="decrease" type="button" class="btn btn-default">-</button>
+                            <button id="increase" type="button" disabled class="btn btn-default">+</button>
+                            <button id="decrease" type="button" disabled class="btn btn-default">-</button>
                         </div>
                         
                     </div>
                 </div>
+                
+                <br/>
+                <br/>
+                
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="text"></div>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </body>
